@@ -1,0 +1,32 @@
+#loadingoverlay{
+	background-color: rgba(0, 0, 0, 0.3);
+	display: none;
+	height: 100%;
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	z-index: 800;
+}
+#loadingoverlay div{
+	background-color: rgba(0, 0, 0, 0.6);
+	border-radius: 5px; color: #ffffff;
+	
+	position: relative;
+	text-align: center;
+	top: 25%;
+	/* Total height 120px */
+	padding-top: 50px;
+	height: 70px;
+	/* (100% - 40%) = 60% left on the sides = 30% left */
+	width: 40%;
+	left: 30%;	
+}
+
+#pagedashboard .membersince, #pagedashboard .customerid, #pagedashboard .email, #pagedashboard .income{
+	font-weight: normal;
+}
+
+.houses .house .area{
+	font-size: 0.8em;
+	font-weight: normal;
+}

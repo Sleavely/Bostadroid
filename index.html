@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>BOSTADroid</title>
+        <meta charset="utf-8" />
+		<meta content="width=device-width" name="viewport" />
+		<link rel="stylesheet" href="jquery.mobile-1.0rc2.min.css" />
+		<link rel="stylesheet" href="app.css" />
+		<script src="jquery-1.6.4.min.js"></script>
+		<script src="jquery.mobile-1.0rc2.min.js"></script>
+		<script type="text/javascript" src="bostadroid.js"></script>
+    </head>
+    <body>
+	<div id="loadingoverlay">
+		<div>
+			Laddar
+		</div>
+	</div>
+	<div data-role="page" id="pagelogin">
+		<div data-role="header">
+			<h1>Logga in</h1>
+		</div>
+		<div data-role="content">
+			<label for="ajaxusr">Personnummer (ÅÅÅÅMMDDXXXX)</label>
+			<input name="ajaxusr" id="ajaxusr" type="text" value="" /><br />
+			<label for="ajaxpwd">Lösenord</label>
+			<input name="ajaxpwd" id="ajaxpwd" type="password" value="" /><br />
+			<input type="checkbox" name="rememberme" id="rememberme" /><label for="rememberme"> Kom ihåg</label><br />
+			<button class="login">Logga in</button>
+			<p><a href="#pageinfo">Disclaimer</a>, typ. Behandlar frågor såsom; "<i>Hur hanteras min information?</i>", "<i>Hur kontaktar man utvecklaren?</i>", "<i>Vilka ekorrar förbehålles egentligen?</i>"</p>
+		</div>
+	</div>
+	<div data-role="page" id="pageinfo">
+		<div data-role="header">
+			<h1>Disclaimer</h1>
+		</div>
+		<div data-role="content">
+			<p>BOSTADroid sparar inga användaruppgifter eller annan data som kan användas för att identifiera dig. All data lagras i sessionen som avslutas efter 15 minuter. Om du valt att komma ihåg dina inloggningsuppgifter sparas de lokalt i telefonen tills du väljer att komma ihåg något annat, t.ex. blankt inlogg. </p>
+			<p>Eventuellt kommer appen i framtiden att samla anonym användarinformation såsom inkomst och ålder för att lättare avgöra målgrupp och anpassa innehållet därefter, samt tillfredsställa min inre statistiknörd. Har du frågor kring appen kan du fråga på <a href="http://twitter.com/Sleavely" rel="external" target="_blank">Twitter</a> eller använda något av de <a href="http://joakimhedlund.com/contact.php" rel="external" target="_blank">övriga sociala nätverken</a> jag finns på.</p>
+			<p>Alla hus är copyrightade av  sina respektive ägare, appen av Joakim Hedlund, och bostadskön är trademarkad av staten. Alla ekorrar förbehålles.</p>
+			<a href="javascript:history.go(-1);" data-role="button" data-icon="arrow-l" data-direction="reverse">Tillbaka</a>
+		</div>
+	</div>
+	<div data-role="page" id="pagedashboard">
+		<div data-role="header">
+			
+			<h1>Översikt</h1>
+		</div>
+		<div data-role="content">
+			<p>Här kan du kontrollera att dina uppgifter stämmer. Det vore surt om man fått löneökning och glömt uppdatera inkomsten!</p>
+			<ul data-role="listview" data-inset="true">
+				<li>Kötid:<br /> <span class="membersince"></span></li>
+				<li>Kundnummer:<br /> <span class="customerid"></span></li>
+				<li>Email:<br /> <span class="email"></span></li>
+				<li>Inkomst:<br /> <span class="income"></span></li>
+			</ul>
+			<p>Lägenheter du anmält intresse på:</p>
+			<ul data-role="listview" data-inset="true" class="houses">
+			</ul>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#pagedashboard" class="ui-btn-active ui-state-persist">Översikt</a></li>
+					<li><a href="#pagesearch">Sök</a></li>
+					<li><a href="#pagesettings">Inställningar</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div data-role="page" id="pagesearch">
+		<div data-role="header">
+			<h1>Lediga lägenheter</h1>
+		</div>
+		<div data-role="content">
+			<p>Bubblan till höger visar din köplats och om lägenheten har några flaggor.</p>
+			<ul>
+				<li><strong>K</strong> - Kort</li>
+				<li><strong>P</strong> - Projekt</li>
+				<li><strong>S</strong> - Student</li>
+				<li><strong>U</strong> - Ungdom</li>
+			</ul>
+			<ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Filtrera lista" class="houses">
+				<li class="house">
+					<span class="area">Sverige</span>, Testvägen <span class="ui-li-count">1</span>
+				</li>
+			</ul>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#pagedashboard" data-direction="reverse">Översikt</a></li>
+					<li><a href="#pagesearch" class="ui-btn-active ui-state-persist">Sök</a></li>
+					<li><a href="#pagesettings">Inställningar</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div data-role="page" id="pagedynamic">
+		<div data-role="header">
+			<h1>Lägenhetsprofil</h1>
+		</div>
+		<div data-role="content" class="house" data-houseid="0" data-houselink="">
+			<h2 style="margin-bottom: 0px; margin-top: 0px;">Testvägen,</h2>
+			<h4 style="margin-top: 0px;">Sverige</h4>
+			<img class="map" src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D" alt="Karta" style="vertical-align: middle;"/>
+			<ul data-role="listview" data-inset="true" class="details">
+				<li class="rank">Plats 1 av 1</li>
+				<li>Sista ansökningsdag: <span class="deadline">?</span></li>
+				<li class="rent">1234kr i månaden</li>
+				<li class="rooms">1 rum</li>
+				<li class="size">5 m<sup>3</sup></li>
+			</ul>
+			<ul data-role="listview" data-inset="true" class="links">
+				<li class="terms">
+					<a href="#pageterms">Villkor</a>
+				</li>
+				<li class="permalink">
+					<a href="https://bokabostad.stockholm.se/" rel="external" target="_blank">Permalänk</a>
+				</li>
+				<li data-theme="e">
+					Vänner <small><i>(BOSTADroid+)</i></small>
+				</li>
+				<li data-theme="e">
+					Polisrapporter <small><i>(BOSTADroid+)</i></small>
+				</li>
+			</ul>
+			<div>
+				<a href="#" data-role="button" data-theme="e">Anmäl intresse <small><i>(BOSTADroid+)</i></small></a>
+			</div>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#pagedashboard" data-direction="reverse">Översikt</a></li>
+					<li><a href="#pagesearch" data-direction="reverse">Sök</a></li>
+					<li><a href="#pagesettings">Inställningar</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div data-role="page" id="pageterms">
+		<div data-role="header">
+			<h1>Villkor</h1>
+		</div>
+		<div data-role="content">
+			<h3>Krav från hyresvärden</h3>
+			<ul class="terms">
+			    <li>Test</li>
+			</ul>
+			<a href="javascript:history.go(-1);" data-role="button" data-icon="arrow-l" data-direction="reverse">Tillbaka</a>
+		</div>
+	</div>
+	<div data-role="page" id="pagesettings">
+		<div data-role="header">
+			<h1>Inställningar</h1>
+		</div>
+		<div data-role="content">
+			<fieldset data-role="controlgroup">
+				<legend>Lägenhetslistan</legend>
+				<input type="checkbox" name="setting-showonlyapplicable" id="setting-showonlyapplicable" disabled="disabled" />
+				<label for="setting-showonlyapplicable">Visa bara kvalificerade</label>
+				<input type="checkbox" name="setting-loadrank" id="setting-loadrank" disabled="disabled" />
+				<label for="setting-loadrank" data-theme="e">Sista ansökningsdatum idag</label>
+			</fieldset>
+			<fieldset data-role="controlgroup">
+				<legend>Lägenhetsannonser</legend>
+				<input type="checkbox" name="setting-gmap" id="setting-gmap" checked="checked" />
+				<label for="setting-gmap">Visa Google Maps</label>
+			</fieldset>
+			<fieldset data-role="controlgroup">
+				<legend>Verktyg</legend>
+				
+				<a href="#pagebug" data-role="button">Changelog</a>
+				<a href="http://joakimhedlund.com/contact.php" rel="external" target="_blank" data-role="button">Kontakt</a>
+				<a href="#pagelogin" data-role="button" class="logoutbutton">Logga ut</a>
+			</fieldset>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#pagedashboard" data-direction="reverse">Översikt</a></li>
+					<li><a href="#pagesearch" data-direction="reverse">Sök</a></li>
+					<li><a href="#pagesettings" class="ui-btn-active ui-state-persist">Inställningar</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div data-role="page" id="pagebug">
+		<div data-role="header">
+			<h1>Changelog</h1>
+		</div>
+		<div data-role="content">
+			
+			<!--
+			<h4>1.2.3</h4>
+			<ul>
+			    
+			    <li>* lägg till knapp för att rensa inloggningsuppgifter</li>
+			    <li>* städa upp inställningssidan</li>
+			    <li>* lägg till nyhetssektion på dashboard</li>
+			    <li>* lägg till bostadssnabben, pensionärslägenheter samt ev. andra ikoner</li>
+			    <li>* uppgradera till jQuery Mobile 1.0 gold</li>
+			    <li>* göm google map medan den laddar</li>
+				<li>* "laddar" visas inte när man går från listan till hus, bara när man swipar</li>
+			</ul>
+			-->
+			
+			<h4>1.2.2</h4>
+			<ul>
+			    <li>Ny ikon som jag stolt ritat</li>
+			    <li>Visar nu inloggningssidan om man laddar om appen (DOMContentLoaded)</li>
+			    <li>Man kan nu swipa för att se föregående/nästa lägenhet</li>
+			    <li>Google Maps anpassar nu storlek efter skärmstorlek</li>
+			    <li>Använder lokal cache när uppkopplingen strular (inlogg måste dock alltid ha uppkoppling)</li>
+			    <li>Visar nu "P" istället för lång text om projektlägenheter</li>
+			    <li>Kom Ihåg-knappen på inloggningssidan visar nu korrekt om den är ikryssad</li>
+			    <li>Permalänk till annonsen på hemsidan</li>
+			    <li>Flyttade menyn till längst ner på skärmen</li>
+			    <li>Översatte filter-fältet</li>
+			</ul>
+			
+			<h4>1.2.1</h4>
+			<ul>
+			    <li>Felmeddelande för specifika lägenheter visas nu på rätt sida</li>
+				<li>Uppgraderade till jQuery Mobile 1.0 RC2</li>
+				<li>Uppgraderade till jQuery 1.6.4</li>
+			</ul>
+			
+			<h4>1.2</h4>
+			<ul>
+			    <li>Visar nu flaggor för korttids-, student-, och ungdoms-lägenheter. Tyvärr ingen bostadssnabben än!</li>
+				<li>Laddar inte längre Google Map förän den används</li>
+			</ul>
+			
+			<h4>1.1.0</h4>
+			<ul>
+			    <li>Lade till länk till min Twitter för de som inte orkar maila.</li>
+				<li>Utloggning med Kom Ihåg Lösenord betyder inte längre motsatsen</li>
+			</ul>
+			
+			<h4>1.0.9</h4>
+			<ul>
+			    <li>bostadroid.js försvann i 1.0.6 av någon anledning</li>
+			</ul>
+			
+			<h4>1.0.8</h4>
+			<ul>
+			    <li>Återställde UTF-8</li>
+			</ul>
+			
+			<h4>1.0.7</h4>
+			<ul>
+			    <li>Råkade glömma front-end i 1.0.6</li>
+			</ul>
+			
+			<h4>1.0.6</h4>
+			<ul>
+			    <li>Visar nu senaste ansökningsdatum i detaljvyn</li>
+			    <li>Cachar hus lokalt i 7 dagar</li>
+			    <li>Visar plats i sök-listan för cachade hus</li>
+			    <li>Utloggning rensar lösen om man inte vill bli ihågkommen</li>
+			    <li>Går nu automatiskt till loginsidan om man blivit utloggad</li>
+			    <li>Aktiverade Google Maps option</li>
+			    <li>Tog bort några inställningar</li>
+			    <li>Bakåtknappar (såsom den på den här sidan) är nu vänligare mot telefonens egen bakåtknapp</li>
+			</ul>
+			
+			<h4>1.0.5 och tidigare</h4>
+			<ul>
+			    <li>Första versionen på Market</li>
+			</ul>
+		</div>
+	</div>
+    </body>
+</html>
