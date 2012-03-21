@@ -69,6 +69,15 @@ bostadroid.updatesettings = (function(){
 	}
 });
 
+bostadroid.changepage = (function(target){
+	jQuery(".container > .active.page").slideUp(400, function(){
+		jQuery(target).slideDown(400, function(){
+			jQuery(this).addClass("active");
+			jQuery('html, body').scrollTop(0);
+		});
+	});
+});
+
 bostadroid.showlogin = (function(manuallogout){
 	//show a message
 	if(!manuallogout) bostadroid.error('Du har blivit utloggad pga inaktivitet, var god logga in igen.');
@@ -327,11 +336,17 @@ bostadroid.house = (function(linkelement){
 jQuery(document).ready(function(){
 		
 	//prevent refresh that loses session
-	//TODO: port from jQM
+	//TODO: port all code from jQM, not just document.ready
 	//if(jQuery(jQuery.mobile.activePage).attr("id") != "pagelogin") jQuery.mobile.changePage(jQuery("#pagelogin"));
+	
+	//hide pages
+	jQuery('.container > .page').not(".active").hide();
 	
 	//TODO: make houses a swipe:able array of divs, with #pagesearch ul as reference
 	
+	
+	
+	/*
 	//make pages swipe:able
 	bostadroid.swipe = new Swipe(jQuery(".swipe-outer")[0], {
 		callback: function(e, pos, element){
@@ -345,13 +360,13 @@ jQuery(document).ready(function(){
 	
 	//TODO: after swipejs has initialized, perform fix for height
 	
+	*/
 	//bind main menu
 	jQuery("#mainmenu li a").click(function(){
-		$target = jQuery(this);
-		$slides = jQuery(bostadroid.swipe.container).children();
-		for (var i = 0; i < $slides.length; i++){
-			if(jQuery($slides[i]).attr("id") == ($target.attr("href")).substring(1)) bostadroid.swipe.slide(i, 500);
-		}
+		$anchor = jQuery(this);
+		bostadroid.changepage($anchor.attr("href"));
+		jQuery("#mainmenu li.active").removeClass("active");
+		$anchor.parent().addClass("active");
 	});
 	
 	//load the floppy canons

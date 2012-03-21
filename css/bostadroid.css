@@ -1,5 +1,5 @@
 @media (min-width: 979px){
-	[data-role="page"] {
+	.page {
 		padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 	}
 }
