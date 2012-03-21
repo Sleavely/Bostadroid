@@ -4,8 +4,12 @@ bostadroid.target = 'http://labs.joakimhedlund.com/bostadroid/server/index.php';
 if(window.device) bostadroid.target = 'http://bostadroid.joakimhedlund.com/server/index.php';
 bostadroid.store = {};
 
-bostadroid.error = (function(message){
-	alert(message);
+bostadroid.error = (function(message, target){
+	if(!target){
+		target = ".page.active";
+		jQuery("html, body").animate({'scrollTop': 0}, 300);
+	}
+	jQuery(target).prepend('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a>'+ message +'</div>');
 	if(!window.device) console.log(message);
 });
 bostadroid.pad = (function(n, c){
