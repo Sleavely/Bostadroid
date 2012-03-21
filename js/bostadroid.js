@@ -325,11 +325,30 @@ bostadroid.house = (function(linkelement){
 });
 
 jQuery(document).ready(function(){
-	
-	jQuery.mobile.loadingMessage = "Laddar";
-	
+		
 	//prevent refresh that loses session
-	if(jQuery(jQuery.mobile.activePage).attr("id") != "pagelogin") jQuery.mobile.changePage(jQuery("#pagelogin"));
+	//TODO: port from jQM
+	//if(jQuery(jQuery.mobile.activePage).attr("id") != "pagelogin") jQuery.mobile.changePage(jQuery("#pagelogin"));
+	
+	//make pages swipe:able
+	bostadroid.swipe = new Swipe(jQuery(".swipe-outer")[0], {
+		callback: function(e, pos, element){
+		var itemid = jQuery(element).attr("id");
+		jQuery("#mainmenu li.active").removeClass("active");
+		if(itemid){
+			jQuery("#mainmenu li > a[href=\"#"+ itemid +"\"]").parent().addClass("active");
+		}
+		}
+	});
+	
+	//bind main menu
+	jQuery("#mainmenu li a").click(function(){
+		$target = jQuery(this);
+		$slides = jQuery(bostadroid.swipe.container).children();
+		for (var i = 0; i < $slides.length; i++){
+			if(jQuery($slides[i]).attr("id") == ($target.attr("href")).substring(1)) bostadroid.swipe.slide(i, 500);
+		}
+	});
 	
 	//load the floppy canons
 	bostadroid.loadstore();
@@ -337,7 +356,7 @@ jQuery(document).ready(function(){
 	//fill in user info
 	if(bostadroid.store.username) jQuery("#ajaxusr").val(bostadroid.store.username);
 	if(bostadroid.store.password) jQuery("#ajaxpwd").val(bostadroid.store.password);
-	if(bostadroid.store.remember) jQuery("#rememberme").attr("checked", true).checkboxradio("refresh");
+	if(bostadroid.store.remember) jQuery("#rememberme").attr("checked", true);
 	
 	//load options from store (they are actually saved separately from bostadroid.store)
 	bostadroid.loadsettings();
