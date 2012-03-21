@@ -9,7 +9,7 @@ bostadroid.error = (function(message, target){
 		target = ".page.active";
 		jQuery("html, body").animate({'scrollTop': 0}, 300);
 	}
-	jQuery(target).prepend('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a>'+ message +'</div>');
+	jQuery(target).prepend('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert">×</a>'+ message +'</div>');
 	if(!window.device) console.log(message);
 });
 bostadroid.pad = (function(n, c){
