@@ -330,6 +330,8 @@ jQuery(document).ready(function(){
 	//TODO: port from jQM
 	//if(jQuery(jQuery.mobile.activePage).attr("id") != "pagelogin") jQuery.mobile.changePage(jQuery("#pagelogin"));
 	
+	//TODO: make houses a swipe:able array of divs, with #pagesearch ul as reference
+	
 	//make pages swipe:able
 	bostadroid.swipe = new Swipe(jQuery(".swipe-outer")[0], {
 		callback: function(e, pos, element){
@@ -340,6 +342,8 @@ jQuery(document).ready(function(){
 		}
 		}
 	});
+	
+	//TODO: after swipejs has initialized, perform fix for height
 	
 	//bind main menu
 	jQuery("#mainmenu li a").click(function(){
@@ -384,12 +388,14 @@ jQuery(document).ready(function(){
 		if(jQuery(ui.nextPage).attr('id') == 'pagesearch'){
 			//load the list
 			bostadroid.search();
+			//TODO: pagehide doesnt exist outside of jQM, change this to something else.
 		}
 	});
 	
 	//clicking a house in a house list: update the details
 	jQuery('.houses .house a').live('click', function(event, ui){
 		bostadroid.house(this);
+		//TODO: hide main swipe container and show the swipe:able one for houses
 	});
 	
 	//// swipe to browse the list ////
@@ -398,6 +404,7 @@ jQuery(document).ready(function(){
 		//find it corresponding item in the list and load the next one
 		var nexthouse = jQuery("#search-house-"+houseid).next();
 		bostadroid.house(jQuery("a", nexthouse));
+		//TODO: this will be somewhat redundant. update with callback from house-swipe instance
 	});
 	jQuery("#pagedynamic .house").live('swiperight', function(event){
 		var houseid = jQuery(".permalink a", this).attr("data-houseid");
