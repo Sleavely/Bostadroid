@@ -11,3 +11,16 @@
 .brand img{
 	vertical-align: middle;
 }
+
+#loadingMsg.modal{
+	display: none;
+	margin-top: 0;
+	opacity: 0.93;
+	text-align: center;
+}
+@media (max-width: 480px){
+	#loadingMsg.modal{
+		position: fixed;
+		top: 100px;
+	}
+}

@@ -78,6 +78,13 @@ bostadroid.changepage = (function(target){
 	});
 });
 
+bostadroid.showloading = (function(){
+	jQuery("#loadingMsg").modal("show")
+});
+bostadroid.hideloading = (function(){
+	jQuery("#loadingMsg").modal("hide")
+});
+
 bostadroid.showlogin = (function(manuallogout){
 	//show a message
 	if(!manuallogout) bostadroid.error('Du har blivit utloggad pga inaktivitet, var god logga in igen.');
@@ -91,20 +98,20 @@ bostadroid.showlogin = (function(manuallogout){
 	}
 	if(!rememberme) jQuery("#ajaxpwd").val("");
 	//show login
-	jQuery.mobile.changePage(jQuery("#pagelogin"));
+	bostadroid.changepage("#pagelogin");
 	//TODO: clear history to prevent back-button
 	
 });
 
 bostadroid.login = (function(){
-	jQuery.mobile.showPageLoadingMsg();
+	bostadroid.showloading();
 	jQuery.ajax({
 		url: bostadroid.target,
 		type: "POST",
 		data: jQuery("#pagelogin input").serialize(),
 		dataType: 'json',
 		success: function(response){
-			jQuery.mobile.hidePageLoadingMsg();
+			bostadroid.hideloading();
 			if(response.status != 200){
 				bostadroid.error(response.message);
 			}else{
@@ -129,14 +136,14 @@ bostadroid.login = (function(){
 				if(response.data.houses.length == 0) jQuery("#pagedashboard ul.houses").html('<li>Här var det tomt!</li>');
 				
 				//...and redirect
-				jQuery.mobile.changePage(jQuery("#pagedashboard"));
+				bostadroid.changepage("#pagedashboard");
 				
 				//rebuild style
 				jQuery("#pagedashboard ul.houses").listview('refresh');
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			jQuery.mobile.hidePageLoadingMsg();
+			bostadroid.hideloading();
 			bostadroid.error("Kunde inte kontakta servern.");
 		}
 	  });
@@ -188,14 +195,14 @@ bostadroid.search = (function(){
 	if(bostadroid.sessionhouselist){
 		showhouselist(bostadroid.sessionhouselist);
 	}else{
-		jQuery.mobile.showPageLoadingMsg();
+		bostadroid.showloading();
 		jQuery.ajax({
 			url: bostadroid.target,
 			type: "POST",
 			data: {"action": "list", "qualifiedonly": qualified},
 			dataType: 'json',
 			success: function(response){
-				jQuery.mobile.hidePageLoadingMsg();
+				bostadroid.hideloading();
 				if(response.status != 200){
 					if(response.status == 401){
 						bostadroid.showlogin();
@@ -210,7 +217,7 @@ bostadroid.search = (function(){
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
-				jQuery.mobile.hidePageLoadingMsg();
+				bostadroid.hideloading();
 				
 				var cacheExists = false;
 				if(Object.keys(bostadroid.store.houses).length > 0) cacheExists = true;
@@ -236,7 +243,7 @@ bostadroid.search = (function(){
 });
 
 bostadroid.house = (function(linkelement){
-	jQuery.mobile.showPageLoadingMsg();
+	bostadroid.showloading();
 	
 	var houselink = jQuery(linkelement).attr("data-houselink");
 	var houseid = jQuery(linkelement).attr("data-houseid");
@@ -293,7 +300,7 @@ bostadroid.house = (function(linkelement){
 		dataType: 'json',
 		success: function(response){
 			if(response.status != 200){
-				jQuery.mobile.hidePageLoadingMsg();
+				bostadroid.hideloading();
 				if(response.status == 401){
 					bostadroid.showlogin();
 				}else{
@@ -305,7 +312,7 @@ bostadroid.house = (function(linkelement){
 				//update DOM on house details page
 				buildHouse(response.data);
 				//now that we've updated the DOM we can safely say the pageload was a success. remove loading overlay
-				jQuery.mobile.hidePageLoadingMsg();
+				bostadroid.hideloading();
 				
 				bostadroid.store.houses[response.data.id] = response.data;
 				bostadroid.store.houses[response.data.id].cachetime = response.servertime;
@@ -314,7 +321,7 @@ bostadroid.house = (function(linkelement){
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			jQuery.mobile.hidePageLoadingMsg();
+			bostadroid.hideloading();
 			
 			var cacheExists = false;
 			if(bostadroid.store.houses[houseid] !== undefined) cacheExists = true;
@@ -337,10 +344,12 @@ jQuery(document).ready(function(){
 		
 	//prevent refresh that loses session
 	//TODO: port all code from jQM, not just document.ready
-	//if(jQuery(jQuery.mobile.activePage).attr("id") != "pagelogin") jQuery.mobile.changePage(jQuery("#pagelogin"));
 	
 	//hide pages
 	jQuery('.container > .page').not(".active").hide();
+	
+	//prepare the "Loading.." overlay
+	jQuery("#loadingMsg").modal({backdrop: 'static', keyboard: false, show: false});
 	
 	//TODO: make houses a swipe:able array of divs, with #pagesearch ul as reference
 	
@@ -367,6 +376,13 @@ jQuery(document).ready(function(){
 		bostadroid.changepage($anchor.attr("href"));
 		jQuery("#mainmenu li.active").removeClass("active");
 		$anchor.parent().addClass("active");
+	});
+	//bind any other links.
+	jQuery("body > .container a").click(function(){
+		//TODO: make sure the mainmenu uses this one
+		//TODO: fix history.go(-1)
+		bostadroid.changepage(jQuery(this).attr('href'));
+		return false;
 	});
 	
 	//load the floppy canons
