@@ -3,14 +3,21 @@
 bostadroid.target = 'http://labs.joakimhedlund.com/bostadroid/server/index.php';
 if(window.device) bostadroid.target = 'http://bostadroid.joakimhedlund.com/server/index.php';
 bostadroid.store = {};
+bostadroid.internal = {};
 
-bostadroid.error = (function(message, target){
+bostadroid.internal.alert = (function(type, message, target){
 	if(!target){
 		target = ".page.active";
 		jQuery("html, body").animate({'scrollTop': 0}, 300);
 	}
-	jQuery(target).prepend('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert">×</a>'+ message +'</div>');
+	jQuery(target).prepend('<div class="alert alert-block alert-'+ type +' fade in"><a class="close" data-dismiss="alert">×</a>'+ message +'</div>');
+});
+bostadroid.error = (function(message, target){	
+	bostadroid.internal.alert('error', message, target);
 	if(!window.device) console.log(message);
+});
+bostadroid.notice = (function(message, target){
+	bostadroid.internal.alert('notice', message, target);
 });
 bostadroid.pad = (function(n, c){
 	if ((n = n + '').length < c) {
@@ -128,7 +135,7 @@ bostadroid.login = (function(){
 				
 				//look for warning/notification/other message
 				jQuery('#pagedashboard .infomessage').remove();
-				if(response.data.infomessage) jQuery('#pagedashboard [data-role="content"]').prepend('<div class="ui-bar ui-bar-e infomessage">'+ response.data.infomessage +'</div>');
+				if(response.data.infomessage) bostadroid.notice(response.data.infomessage);
 				
 				//build houses
 				var x = 0;
@@ -161,7 +168,7 @@ bostadroid.search = (function(){
 	function showhouselist(response){
 		//look for warning/notification/other message
 		jQuery('#pagesearch .infomessage').remove();
-		if(response.data.infomessage) jQuery('#pagesearch [data-role="content"]').prepend('<div class="ui-bar ui-bar-e infomessage">'+ response.data.infomessage +'</div>');
+		if(response.data.infomessage) bostadroid.notice(response.data.infomessage);
 		
 		//we got a response, fill the list with data
 		var x = 0;
@@ -256,7 +263,7 @@ bostadroid.house = (function(linkelement){
 	function buildHouse(data){
 		//look for warning/notification/other message
 		jQuery('#pagedynamic .infomessage').remove();
-		if(data.infomessage) jQuery('#pagedynamic [data-role="content"]').prepend('<div class="ui-bar ui-bar-e infomessage">'+ data.infomessage +'</div>');
+		if(data.infomessage) bostadroid.notice(data.infomessage, '#pagedynamic [data-role="content"]');
 		
 		//title (adress)
 		jQuery("#pagedynamic .house>h2").text(data.street +',');
