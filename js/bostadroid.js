@@ -150,8 +150,6 @@ bostadroid.login = (function(){
 				//...and redirect
 				bostadroid.changepage("#pagedashboard");
 				
-				//rebuild style
-				jQuery("#pagedashboard ul.houses").listview('refresh');
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown){
@@ -201,7 +199,6 @@ bostadroid.search = (function(){
 			x++;
 		}
 		if(response.data.houses.length == 0) jQuery("#pagesearch ul.houses").html('<li>Hittade inga lägenheter</li>');
-		jQuery("#pagesearch ul.houses").listview('refresh');
 	}
 	
 	if(bostadroid.sessionhouselist){
