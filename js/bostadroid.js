@@ -387,7 +387,7 @@ jQuery(document).ready(function(){
 		$anchor.parent().addClass("active");
 	});
 	//bind any other links.
-	jQuery("body > .container a").click(function(){
+	jQuery("body > .container a").not('[rel="external"], [target="_blank"]').click(function(){
 		//TODO: make sure the mainmenu uses this one
 		//TODO: fix history.go(-1)
 		bostadroid.changepage(jQuery(this).attr('href'));
