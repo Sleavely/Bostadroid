@@ -128,10 +128,10 @@ bostadroid.login = (function(){
 				bostadroid.error(response.message);
 			}else{
 				//ok we are logged in, now update dashboard
-				jQuery("#pagedashboard div[data-role=content] li .membersince").text(response.data.membersince);
-				jQuery("#pagedashboard div[data-role=content] li .customerid").text(response.data.customerid);
-				jQuery("#pagedashboard div[data-role=content] li .email").text(response.data.email);
-				jQuery("#pagedashboard div[data-role=content] li .income").text(response.data.income);
+				jQuery("#pagedashboard .membersince").text(response.data.membersince);
+				jQuery("#pagedashboard .customerid").text(response.data.customerid);
+				jQuery("#pagedashboard .email").text(response.data.email);
+				jQuery("#pagedashboard .income").text(response.data.income);
 				
 				//look for warning/notification/other message
 				jQuery('#pagedashboard .infomessage').remove();
