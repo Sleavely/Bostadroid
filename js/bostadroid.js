@@ -79,6 +79,7 @@ bostadroid.changepage = (function(target){
 			jQuery(this).addClass("active");
 			jQuery('html, body').scrollTop(0);
 		});
+		jQuery(this).removeClass("active");
 	});
 });
 
