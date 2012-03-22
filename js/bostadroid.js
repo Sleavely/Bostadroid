@@ -81,12 +81,17 @@ bostadroid.updatesettings = (function(){
 });
 
 bostadroid.changepage = (function(target){
-	jQuery(".container > .active.page").slideUp(400, function(){
-		jQuery(target).slideDown(400, function(){
-			jQuery(this).addClass("active");
+	var $current = jQuery(".container > .active.page");
+	var $target = jQuery(target);
+	
+	//update classes before animations, so that stuff like bostadroid.error shows up on the correct page
+	$current.removeClass("active");
+	$target.addClass("active");
+	
+	$current.slideUp(400, function(){
+		$target.slideDown(400, function(){
 			jQuery('html, body').scrollTop(0);
 		});
-		jQuery(this).removeClass("active");
 	});
 });
 
@@ -133,9 +138,6 @@ bostadroid.login = (function(){
 				jQuery("#pagedashboard .email").text(response.data.email);
 				jQuery("#pagedashboard .income").text(response.data.income);
 				
-				//look for warning/notification/other message
-				jQuery('#pagedashboard .infomessage').remove();
-				if(response.data.infomessage) bostadroid.notice(response.data.infomessage);
 				
 				//build houses
 				var x = 0;
@@ -149,6 +151,9 @@ bostadroid.login = (function(){
 				
 				//...and redirect
 				bostadroid.changepage("#pagedashboard");
+				
+				//look for warning/notification/other message
+				if(response.data.infomessage) bostadroid.notice(response.data.infomessage);
 				
 			}
 		},
@@ -165,7 +170,6 @@ bostadroid.search = (function(){
 	
 	function showhouselist(response){
 		//look for warning/notification/other message
-		jQuery('#pagesearch .infomessage').remove();
 		if(response.data.infomessage) bostadroid.notice(response.data.infomessage);
 		
 		//we got a response, fill the list with data
@@ -259,7 +263,6 @@ bostadroid.house = (function(linkelement){
 	
 	function buildHouse(data){
 		//look for warning/notification/other message
-		jQuery('#pagedynamic .infomessage').remove();
 		if(data.infomessage) bostadroid.notice(data.infomessage, '#pagedynamic [data-role="content"]');
 		
 		//title (adress)
