@@ -3,7 +3,7 @@
     <head>
         <title>BOSTADroid</title>
         <meta charset="utf-8" />
-		<meta content="width=device-width" name="viewport" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="css/bootstrap.css" />
 		<link rel="stylesheet" href="css/bostadroid.css" />
 		<script src="js/jquery-1.7.1.min.js"></script>
@@ -183,21 +183,26 @@
 				<h1>Inställningar</h1>
 			</div>
 			<div data-role="content">
-				<fieldset data-role="controlgroup">
+				<fieldset>
 					<legend>Lägenhetslistan</legend>
-					<label for="setting-showonlyapplicable" class="checkbox"><input type="checkbox" name="setting-showonlyapplicable" id="setting-showonlyapplicable" disabled="disabled" /> Visa bara kvalificerade</label>
-					<label for="setting-loadrank" class="checkbox" data-theme="e"><input type="checkbox" name="setting-loadrank" id="setting-loadrank" disabled="disabled" /> Sista ansökningsdatum idag</label>
+					<div class="control-group">
+						<label for="setting-showonlyapplicable" class="checkbox"><input type="checkbox" name="setting-showonlyapplicable" id="setting-showonlyapplicable" disabled="disabled" /> Visa bara kvalificerade</label>
+						<label for="setting-loadrank" class="checkbox" data-theme="e"><input type="checkbox" name="setting-loadrank" id="setting-loadrank" disabled="disabled" /> Sista ansökningsdatum idag</label>
+					</div>
 				</fieldset>
-				<fieldset data-role="controlgroup">
+				<fieldset>
 					<legend>Lägenhetsannonser</legend>
-					<label for="setting-gmap" class="checkbox"><input type="checkbox" name="setting-gmap" id="setting-gmap" checked="checked" /> Visa Google Maps</label>
+					<div class="control-group">
+						<label for="setting-gmap" class="checkbox"><input type="checkbox" name="setting-gmap" id="setting-gmap" checked="checked" /> Visa Google Maps</label>
+					</div>
 				</fieldset>
-				<fieldset data-role="controlgroup">
+				<fieldset>
 					<legend>Verktyg</legend>
-					
-					<a href="#pagechangelog" data-role="button">Changelog</a>
-					<a href="http://joakimhedlund.com/contact.php" rel="external" target="_blank" data-role="button">Kontakt</a>
-					<a href="#pagelogin" data-role="button" class="logoutbutton">Logga ut</a>
+					<div class="control-group">
+						<a href="#pagechangelog" class="btn">Changelog</a>
+						<a href="http://joakimhedlund.com/contact.php" rel="external" target="_blank" class="btn">Kontakt</a>
+						<a href="#pagelogin" class="btn btn-inverse logoutbutton">Logga ut</a>
+					</div>
 				</fieldset>
 			</div>
 			<div data-role="footer" data-position="fixed">
