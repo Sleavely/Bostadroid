@@ -104,6 +104,15 @@ bostadroid.changepage = (function(target){
 			jQuery('html, body').scrollTop(0);
 		});
 	});
+	
+	//update main menu
+	var $newlistitems = jQuery(".page.active [data-role=navbar] li");
+	//some pages dont have footer menus
+	if($newlistitems.length){
+		var $mainmenu = jQuery("#mainmenu ul.nav");
+		$mainmenu.html("");
+		$newlistitems.clone(true).appendTo($mainmenu);
+	}
 });
 
 bostadroid.showloading = (function(){
