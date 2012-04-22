@@ -3,15 +3,31 @@
 bostadroid.target = 'http://labs.joakimhedlund.com/bostadroid/server/index.php';
 if(window.device) bostadroid.target = 'http://bostadroid.joakimhedlund.com/server/index.php';
 bostadroid.store = {};
-bostadroid.internal = {};
 
-bostadroid.internal.alert = (function(type, message, target){
-	if(!target){
-		target = ".page.active";
-		jQuery("html, body").animate({'scrollTop': 0}, 300);
-	}
-	jQuery(target).prepend('<div class="alert alert-block alert-'+ type +' fade in"><a class="close" data-dismiss="alert">×</a>'+ message +'</div>');
-});
+bostadroid.internal = {
+	
+	alert: (function(type, message, target){
+		if(!target){
+			target = ".page.active";
+			jQuery("html, body").animate({'scrollTop': 0}, 300);
+		}
+		jQuery(target).prepend('<div class="alert alert-block alert-'+ type +' fade in"><a class="close" data-dismiss="alert">×</a>'+ message +'</div>');
+	}),
+	
+	/*
+	 * Pads the variable with leading zeros until the output is at least X characters
+	 * @param mixed n Anything that can be concatenated with a string
+	 * @param int c Minimum length of output
+	 * @return string Padded output, or n as string
+	 */
+	pad: (function(n, c){
+		if ((n = n + '').length < c) {
+			return new Array((++c) - n.length).join('0') + n;
+		}
+		return n + '';
+	})
+};
+
 bostadroid.error = (function(message, target){	
 	bostadroid.internal.alert('error', message, target);
 	if(!window.device) console.log(message);
@@ -19,12 +35,7 @@ bostadroid.error = (function(message, target){
 bostadroid.notice = (function(message, target){
 	bostadroid.internal.alert('notice', message, target);
 });
-bostadroid.pad = (function(n, c){
-	if ((n = n + '').length < c) {
-	    return new Array((++c) - n.length).join('0') + n;
-	}
-	return n;
-});
+
 bostadroid.loadstore = (function(){
 	//load stored cache
 	if(localStorage.getItem("store")){
@@ -144,7 +155,7 @@ bostadroid.login = (function(){
 				jQuery("#pagedashboard ul.houses").html('');
 				while(response.data.houses.length > x){
 					//
-					jQuery("#pagedashboard ul.houses").append('<li class="house"><a href="#pagedynamic" data-houseid="'+ response.data.houses[x].id +'" data-houselink="'+ response.data.houses[x].link +'"><span class="area">'+ response.data.houses[x].area +',</span>'+ response.data.houses[x].street +' <span class="ui-li-count">'+ response.data.houses[x].rank +'</span></a></li>');
+					jQuery("#pagedashboard ul.houses").append('<li class="house"><a href="#pagedynamic" data-houseid="'+ response.data.houses[x].id +'" data-houselink="'+ response.data.houses[x].link +'"><span class="area">'+ response.data.houses[x].area +',</span>'+ response.data.houses[x].street +' <span class="badge">'+ response.data.houses[x].rank +'</span></a></li>');
 					x++;
 				}
 				if(response.data.houses.length == 0) jQuery("#pagedashboard ul.houses").html('<li>Här var det tomt!</li>');
@@ -195,7 +206,7 @@ bostadroid.search = (function(){
 			}else{
 				queuestring = tags;
 			}
-			queuestring = (queuestring.length > 0 ? '<span class="ui-li-count">'+ queuestring +'</span>' : '');
+			queuestring = (queuestring.length > 0 ? '<span class="badge">'+ queuestring +'</span>' : '');
 			//reset tags because they have been printed
 			tags = '';
 			//build list
@@ -340,7 +351,7 @@ bostadroid.house = (function(linkelement){
 			
 			if(cacheExists){
 				var dateObj = new Date(bostadroid.store.houses[houseid].cachetime * 1000);
-				var cacheDate = (dateObj.getFullYear()) +"-"+ (bostadroid.pad((dateObj.getMonth() + 1), 2)) +"-"+ (bostadroid.pad(dateObj.getDate(), 2)) +" "+ (bostadroid.pad(dateObj.getHours(), 2)) +":"+ (bostadroid.pad(dateObj.getMinutes(), 2));
+				var cacheDate = (dateObj.getFullYear()) +"-"+ (bostadroid.internal.pad((dateObj.getMonth() + 1), 2)) +"-"+ (bostadroid.internal.pad(dateObj.getDate(), 2)) +" "+ (bostadroid.internal.pad(dateObj.getHours(), 2)) +":"+ (bostadroid.internal.pad(dateObj.getMinutes(), 2));
 				bostadroid.error("Kunde inte kontakta servern, visar cache från " + cacheDate);
 				buildHouse(bostadroid.store.houses[houseid]);
 				
