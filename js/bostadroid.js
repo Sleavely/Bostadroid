@@ -113,6 +113,11 @@ bostadroid.changepage = (function(target){
 		$mainmenu.html("");
 		$newlistitems.clone(true).appendTo($mainmenu);
 	}
+	
+	if(jQuery(target).attr('id') == 'pagesearch'){
+		//load the list
+		bostadroid.search();
+	}
 });
 
 bostadroid.showloading = (function(){
@@ -163,7 +168,7 @@ bostadroid.login = (function(){
 				var x = 0;
 				jQuery("#pagedashboard ul.houses").html('');
 				while(response.data.houses.length > x){
-					//
+					//TODO: turn this into table, like #pagesearch
 					jQuery("#pagedashboard ul.houses").append('<li class="house"><a href="#pagedynamic" data-houseid="'+ response.data.houses[x].id +'" data-houselink="'+ response.data.houses[x].link +'"><span class="area">'+ response.data.houses[x].area +',</span>'+ response.data.houses[x].street +' <span class="badge">'+ response.data.houses[x].rank +'</span></a></li>');
 					x++;
 				}
@@ -216,7 +221,7 @@ bostadroid.search = (function(){
 			}else{
 				queuestring = tags;
 			}
-			queuestring = (queuestring.length > 0 ? '<td><span class="badge">'+ queuestring +'</span></td>' : '');
+			queuestring = (queuestring.length > 0 ? '<td><span class="badge">'+ queuestring +'</span></td>' : '<td></td>');
 			//reset tags because they have been printed
 			tags = '';
 			//build list
@@ -443,15 +448,6 @@ jQuery(document).ready(function(){
 	});
 	jQuery(".logoutbutton").click(function(){
 		bostadroid.showlogin(true);
-	});
-	
-	//trigger on changed page
-	jQuery('div').live('pagehide',function(event, ui){
-		if(jQuery(ui.nextPage).attr('id') == 'pagesearch'){
-			//load the list
-			bostadroid.search();
-			//TODO: pagehide doesnt exist outside of jQM, change this to something else.
-		}
 	});
 	
 	//clicking a house in a house list: update the details
