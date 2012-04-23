@@ -322,13 +322,6 @@ bostadroid.house = (function(linkelement){
 		}
 		
 		jQuery("#pagedynamic .house .permalink a").attr("href", data.link).attr("data-houseid", data.id);
-		
-		//now that its done, make sure the bottom nav isnt fucked up (which it is, especially when project = true
-		jQuery.mobile.fixedToolbars.show(true);
-		if(jQuery("#setting-gmap").is(":checked")) jQuery("#pagedynamic .house .map").load(function(event){
-			jQuery.mobile.fixedToolbars.show(true);
-			jQuery(this).unbind(event);
-		});
 	}
 	
 	jQuery.ajax({
