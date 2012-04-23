@@ -198,7 +198,8 @@ bostadroid.search = (function(){
 		var queuestring = '';
 		var tags = '';
 		//empty the list before adding to it
-		jQuery("#pagesearch ul.houses").html('');
+		jQuery("#pagesearch .houses tbody").html('');
+		var houserow = '';
 		while(response.data.houses.length > x){
 			//have we cached this house? OR we have tags
 			if(response.data.houses[x].tags){ //tags is not set when we retrieve list from cache
@@ -207,7 +208,7 @@ bostadroid.search = (function(){
 				}
 			}
 			if(bostadroid.store.houses[response.data.houses[x].id]){
-				if(bostadroid.store.houses[response.data.houses[x].id].rank.indexOf("projektlägenheter") != -1){
+				if(bostadroid.store.houses[response.data.houses[x].id].rank.indexOf("projekt") != -1){
 					queuestring = tags + "P";
 				}else{
 					queuestring = tags + bostadroid.store.houses[response.data.houses[x].id].rank;
@@ -215,14 +216,19 @@ bostadroid.search = (function(){
 			}else{
 				queuestring = tags;
 			}
-			queuestring = (queuestring.length > 0 ? '<span class="badge">'+ queuestring +'</span>' : '');
+			queuestring = (queuestring.length > 0 ? '<td><span class="badge">'+ queuestring +'</span></td>' : '');
 			//reset tags because they have been printed
 			tags = '';
 			//build list
-			jQuery("#pagesearch ul.houses").append('<li class="house" id="search-house-'+ response.data.houses[x].id +'"><a href="#pagedynamic" data-houseid="'+ response.data.houses[x].id +'" data-houselink="'+ response.data.houses[x].link +'"><span class="area">'+ response.data.houses[x].area +',</span>'+ response.data.houses[x].street + queuestring + '</a></li>');
+			houserow = '<tr class="house" id="search-house-'+ response.data.houses[x].id +'">' +
+				'<td class="area">'+ response.data.houses[x].area +'</td>' +
+				'<td><a href="#pagedynamic" data-houseid="'+ response.data.houses[x].id +'" data-houselink="'+ response.data.houses[x].link +'">'+ response.data.houses[x].street + '</a></td>' +
+				queuestring +
+			'</tr>';
+			jQuery("#pagesearch .houses tbody").append(houserow);
 			x++;
 		}
-		if(response.data.houses.length == 0) jQuery("#pagesearch ul.houses").html('<li>Hittade inga lägenheter</li>');
+		if(response.data.houses.length == 0) jQuery("#pagesearch .houses tbody").html('<tr><td>Hittade inga lägenheter</td></tr>');
 	}
 	
 	if(bostadroid.sessionhouselist){
